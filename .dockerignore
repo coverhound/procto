@@ -1,0 +1,5 @@
+.git
+.gitignore
+.circleci
+docker-compose.yml
+Dockerfile

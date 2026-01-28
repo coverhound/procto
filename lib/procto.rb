@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 class Procto < Module
   # The default name of the instance method to be called
@@ -60,7 +60,7 @@ class Procto < Module
   # @api private
   def initialize(name)
     @name = name
-    @block = ->(*args) { new(*args).public_send(name) }
+    @block = ->(*args, **kwargs, &block) { new(*args, **kwargs, &block).public_send(name) }
   end
 
   private
@@ -76,7 +76,7 @@ class Procto < Module
   def included(host)
     host.instance_exec(@block, @name) do |block, method_name|
       define_singleton_method(:call, &block)
-      define_singleton_method(method_name, &block) if method_name
+      define_singleton_method(method_name, &block) if method_name && method_name != :call
     end
 
     host.extend(ClassMethods)
