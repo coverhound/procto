@@ -10,7 +10,6 @@ Gem::Specification.new do |gem|
     'Nathan Seither (Supernats)',
   ]
   gem.email = 'eng-admin@coverhound.com'
-    
   gem.description = <<~DESCRIPTION
     Turns your object into a method object.
   DESCRIPTION
@@ -19,7 +18,6 @@ Gem::Specification.new do |gem|
     You can also define a Foo.bar(*args) which invokes Foo.new(*args).bar.
   SUMMARY
   gem.homepage = 'https://github.com/coverhound/procto'
-
   gem.required_ruby_version = ['>= 3.0', '< 4.1']
   gem.require_paths = ['lib']
   gem.files = Dir.glob('lib/**/*') + %w[LICENSE README.md]

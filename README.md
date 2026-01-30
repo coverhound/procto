@@ -40,6 +40,8 @@ class Printer
   attr_reader :text
 end
 
+# Both methods are available:
+Printer.call('world')  # => "Hello world"
 Printer.print('world') # => "Hello world"
 ```
 

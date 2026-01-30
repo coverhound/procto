@@ -200,7 +200,31 @@ class ProctoTest < Minitest::Test
     assert_equal [2, 4, 6], result
   end
 
-  def test_returns_same_instance_for_same_method_name
+  def test_mixed_positional_and_keyword_arguments
+    person_formatter_class = Class.new do
+      include Procto.call
+
+      def initialize(name, age:, title: 'Mr/Ms')
+        @name = name
+        @age = age
+        @title = title
+      end
+
+      def call
+        "#{@title} #{@name}, age #{@age}"
+      end
+    end
+
+    # Test with required keyword argument
+    result = person_formatter_class.call('Alice', age: 30)
+    assert_equal 'Mr/Ms Alice, age 30', result
+
+    # Test with both required and optional keyword arguments
+    result = person_formatter_class.call('Bob', age: 25, title: 'Dr')
+    assert_equal 'Dr Bob, age 25', result
+  end
+
+  def test_creates_new_module_instance_each_time
     module1 = Procto.call
     module2 = Procto.call
     

@@ -51,8 +51,4 @@ services:
       - ${GEM_CACHE_ROOT:-./tmp/cache}/ruby-4-0:/usr/local/bundle
 
 volumes:
-  gem_cache_3_2:
-  gem_cache_3_3:
-  gem_cache_3_4:
-  gem_cache_4_0:
   gem_cache_dev:
