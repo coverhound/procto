@@ -1,0 +1,64 @@
+#!/bin/bash
+# Test runner for all Ruby versions using docker-compose
+
+# Parse command line arguments
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --help|-h)
+            echo "Usage: $0"
+            echo ""
+            echo "Options:"
+            echo "  --help, -h       Show this help message"
+            echo ""
+            echo "Run tests across all Ruby versions using docker-compose."
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Use --help for usage information"
+            exit 1
+            ;;
+    esac
+done
+
+echo "🧪 Running tests across all Ruby versions with docker-compose..."
+
+# Get all services dynamically
+services=$(docker-compose config --services | grep -E '^ruby-[0-9]+' | sort)
+echo -e "Testing Ruby versions: \n$services"
+echo ""
+
+echo "Starting sequential test execution..."
+overall_exit=0
+
+# Store results
+declare -a results
+
+# Run each service sequentially
+for service in $services; do
+    version=$(echo "$service" | sed 's/rake-ruby-//' | sed 's/ruby-//' | sed 's/-/./g')
+    echo "Testing Ruby $version..."
+
+    if docker-compose run --build --rm $service; then
+        results+=("✅ Ruby $version: PASSED")
+    else
+        results+=("❌ Ruby $version: FAILED")
+        overall_exit=1
+    fi
+    echo ""
+done
+
+echo "=== RESULTS ==="
+for result in "${results[@]}"; do
+    echo "$result"
+done
+
+echo ""
+if [ $overall_exit -eq 0 ]; then
+    echo "🎉 All tests passed!"
+else
+    echo "⚠️  Some tests failed"
+fi
+
+exit $overall_exit

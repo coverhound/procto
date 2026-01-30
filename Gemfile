@@ -1,13 +1,10 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 source 'https://rubygems.org'
 
 gemspec
 
-group :development do
-  gem 'devtools', git: 'https://github.com/mbj/devtools.git'
-end
-
-group :test do
-  gem 'coveralls', '~> 0.8.9'
+group :development, :test do
+  gem 'minitest', '~> 6.0'
+  gem 'rake', '~> 13.0'
 end

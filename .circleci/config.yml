@@ -1,0 +1,35 @@
+---
+version: 2.1
+
+jobs:
+  test:
+    machine:
+      image: ubuntu-2004:current
+      docker_layer_caching: true
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - gems-v2-{{ checksum "Gemfile.lock" }}
+            - gems-v2-
+      - run:
+          name: Create gem cache directories
+          command: |
+            mkdir -p .gem_cache/ruby-3-2
+            mkdir -p .gem_cache/ruby-3-3
+            mkdir -p .gem_cache/ruby-3-4
+            mkdir -p .gem_cache/ruby-4-0
+      - run:
+          name: Test all Ruby versions
+          command: |
+            export GEM_CACHE_ROOT=$(pwd)/.gem_cache
+            ./bin/test
+      - save_cache:
+          key: gems-v2-{{ checksum "Gemfile.lock" }}
+          paths:
+            - .gem_cache
+
+workflows:
+  test:
+    jobs:
+      - test

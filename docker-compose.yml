@@ -1,0 +1,54 @@
+---
+services:
+  base:
+    build:
+      context: .
+  test-base:
+    extends: base
+    entrypoint: rake-entrypoint.sh
+  # Development service for gem building and interactive work
+  dev:
+    extends: base
+    build:
+      args:
+        RUBY_VERSION: "3.2"
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - gem_cache_dev:/usr/local/bundle
+  ruby-3-2-x:
+    extends: test-base
+    build:
+      args:
+        RUBY_VERSION: "3.2"
+    volumes:
+      - .:/app
+      - ${GEM_CACHE_ROOT:-./tmp/cache}/ruby-3-2:/usr/local/bundle
+  ruby-3-3-x:
+    extends: test-base
+    build:
+      args:
+        RUBY_VERSION: "3.3"
+    volumes:
+      - .:/app
+      - ${GEM_CACHE_ROOT:-./tmp/cache}/ruby-3-3:/usr/local/bundle
+  ruby-3-4-x:
+    build:
+      args:
+        RUBY_VERSION: "3.4"
+    extends: test-base
+    volumes:
+      - .:/app
+      - ${GEM_CACHE_ROOT:-./tmp/cache}/ruby-3-4:/usr/local/bundle
+  ruby-4-0-x:
+    build:
+      args:
+        RUBY_VERSION: "4.0"
+    extends: test-base
+    volumes:
+      - .:/app
+      - ${GEM_CACHE_ROOT:-./tmp/cache}/ruby-4-0:/usr/local/bundle
+
+volumes:
+  gem_cache_dev:

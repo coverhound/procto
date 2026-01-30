@@ -1,6 +1,6 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 class Procto < Module
   # Gem version
-  VERSION = '0.0.4'.freeze
+  VERSION = '1.0.0'
 end

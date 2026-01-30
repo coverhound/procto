@@ -1,16 +1,7 @@
 # procto
 
-[![Gem Version](https://badge.fury.io/rb/procto.png)][gem]
-[![Build Status](https://secure.travis-ci.org/snusnu/procto.png?branch=master)][travis]
-[![Dependency Status](https://gemnasium.com/snusnu/procto.png)][gemnasium]
-[![Code Climate](https://codeclimate.com/github/snusnu/procto.png)][codeclimate]
-[![Coverage Status](https://coveralls.io/repos/snusnu/procto/badge.png?branch=master)][coveralls]
-
-[gem]: https://rubygems.org/gems/procto
-[travis]: https://travis-ci.org/snusnu/procto
-[gemnasium]: https://gemnasium.com/snusnu/procto
-[codeclimate]: https://codeclimate.com/github/snusnu/procto
-[coveralls]: https://coveralls.io/r/snusnu/procto
+Method objects. CoverHound wanted to specify method names sometimes, so we spun
+this off.
 
 ## Usage
 
@@ -27,6 +18,9 @@ class Greeter
   def call
     "Hello #{text}"
   end
+  
+  private
+  attr_reader :text
 end
 
 Greeter.call('world') # => "Hello world"
@@ -41,20 +35,22 @@ class Printer
   def print
     "Hello #{text}"
   end
+
+  private
+  attr_reader :text
 end
 
-Printer.call('world') # => "Hello world"
+# Both methods are available:
+Printer.call('world')  # => "Hello world"
+Printer.print('world') # => "Hello world"
 ```
 
 ## Credits
 
 * [snusnu](https://github.com/snusnu)
 * [mbj](https://github.com/mbj)
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+* [supernats](https://github.com/supernats)
 
 ## Copyright
 
-Copyright &copy; 2013 Martin Gamsjaeger (snusnu). See [LICENSE](LICENSE) for details.
+Copyright &copy; 2026 CoverHound. See [LICENSE](LICENSE) for details.
